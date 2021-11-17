@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- name="GENERATOR" content="github.com/mmarkdown/mmark Mmark Markdown Processor - mmark.miek.nl" -->
+<rfc version="3" ipr="trust200902" docName="draft-timbru-sidrops-aspa-notation-00" submissionType="IETF" category="info" xml:lang="en" xmlns:xi="http://www.w3.org/2001/XInclude" indexInclude="false" consensus="true">
+
+<front>
+<title abbrev="ASPA Notation">Human Readable ASPA Notation</title><seriesInfo value="draft-timbru-sidrops-aspa-notation-00" status="informational" name="Internet-Draft"></seriesInfo>
+<author initials="T." surname="Bruijnzeels" fullname="Tim Bruijnzeels"><organization>NLnet Labs</organization><address><postal><street></street>
+</postal><email>tim@nlnetlabs.nl</email>
+</address></author><author initials="O." surname="Borchert" fullname="Oliver Borchert"><organization>NIST</organization><address><postal><street></street>
+</postal><email>oliver.borchert@nist.gov</email>
+</address></author><date/>
+<area>Internet</area>
+<workgroup></workgroup>
+
+<abstract>
+<t>This document defines a human readable ASPA notation for use with RPKI tooling.
+The desire is that this will help create consistency across various tools, and
+thus support the principle of least surprise to operators. That said, this
+definition is informational, and implementations can choose to use their own
+notation styles instead.</t>
+</abstract>
+
+</front>
+
+<middle>
+
+<section anchor="requirements-notation"><name>Requirements notation</name>
+<t>The key words &quot;MUST&quot;, &quot;MUST NOT&quot;, &quot;REQUIRED&quot;, &quot;SHALL&quot;, &quot;SHALL NOT&quot;, &quot;SHOULD&quot;,
+&quot;SHOULD NOT&quot;, &quot;RECOMMENDED&quot;, &quot;NOT RECOMMENDED&quot;, &quot;MAY&quot;, and &quot;OPTIONAL&quot; in
+this document are to be interpreted as described in BCP 14 <xref target="RFC2119"></xref>
+<xref target="RFC8174"></xref> when, and only when, they appear in all capitals, as shown here.</t>
+</section>
+
+<section anchor="aspa-notation-definition"><name>ASPA Notation Definition</name>
+<t>This specification uses ABNF syntax specified in <xref target="RFC5234"></xref>.</t>
+
+<artwork>notation           = customer-as separator provider-as-set
+
+customer-as        = asn
+separator          = &quot; =&gt; &quot;
+provider-as-set    = empty-list / provider-list
+
+empty-list         = &quot;&lt;none&gt;&quot;
+provider-list      = provider-as *(provider-separator provider-as)
+provider-as        = asn / asn-v4 /asn-v6
+provider-separator = &quot;, &quot;
+
+asn              = 1*8DIGIT
+asn-v4           = asn &quot;(v4)&quot;
+asn-v6           = asn &quot;(v6)&quot;
+</artwork>
+
+<section anchor="customer-as"><name>customer-as</name>
+<t>This field represents the customerASID defined in section 3.3 of
+<xref target="I-D.ietf-sidrops-aspa-profile"></xref></t>
+</section>
+
+<section anchor="provider-as-set"><name>provider-as-set</name>
+<t>This field represents the providerASSET defined in section 3.4 of
+<xref target="I-D.ietf-sidrops-aspa-profile"></xref>. For the moment we assume that version -07
+of this document will allow the use of an explicit empty provider AS set,
+rather than using AS0 for this purpose.</t>
+
+<section anchor="empty-list"><name>empty-list</name>
+<t>If an ASPA has no providers this is explicitly specified by using the value &quot;&lt;none&gt;&quot;.</t>
+</section>
+
+<section anchor="provider-list"><name>provider-list</name>
+<t>If an ASPA has at least one provider then we need to specify them. I.e. we need
+to mention the first provider-as and, if applicable, all following provider-as
+values separated by a comma and space character. Note that provider-as values
+MUST be sorted by their asn value.</t>
+</section>
+
+<section anchor="provider-as"><name>provider-as</name>
+<t>A provider-as can be an 'asn', 'asn-v4' or 'asn-v6'. Note that the latter two
+options include an 'asn', but limit the scope of the provider to an address family,
+IPv4 and IPv6 respectively. A specification MUST NOT contain more than one provider-as
+for the same 'asn' - e.g. a provider cannot be defined without address family limit
+AND with such a limit.</t>
+</section>
+</section>
+
+<section anchor="asn"><name>asn</name>
+<t>This represents the decimal value of a 32 bit Autonomous System Number. Values
+MUST be part of the range 0-4294967295.</t>
+</section>
+
+<section anchor="asn-v4"><name>asn-v4</name>
+<t>This represents a provider ASN which is authorised for IPv4 only.</t>
+</section>
+
+<section anchor="asn-v6"><name>asn-v6</name>
+<t>This represents a provider ASN which is authorised for IPv6 only.</t>
+</section>
+</section>
+
+<section anchor="example-notations"><name>Example Notations</name>
+
+<artwork>AS65000 =&gt; &lt;none&gt;
+AS65000 =&gt; AS65001
+AS65000 =&gt; AS65002(v4)
+AS65000 =&gt; AS65001, AS65002(v4), AS65003(v6)
+</artwork>
+</section>
+
+<section anchor="iana-considerations"><name>IANA Considerations</name>
+<t>This document has no IANA actions.</t>
+</section>
+
+<section anchor="security-considerations"><name>Security Considerations</name>
+<t>TBD</t>
+</section>
+
+<section anchor="acknowledgements"><name>Acknowledgements</name>
+<t>TBD</t>
+</section>
+
+</middle>
+
+<back>
+<references><name>Normative References</name>
+<xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"/>
+<xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5234.xml"/>
+<xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8174.xml"/>
+</references>
+<references><name>Informative References</name>
+<xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-sidrops-aspa-profile.xml"/>
+</references>
+
+</back>
+
+</rfc>
