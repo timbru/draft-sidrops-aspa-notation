@@ -115,16 +115,15 @@ Internet-Draft                ASPA Notation                     May 2023
 
 
    notation           = customer-asid separator providers
-
    customer-asid      = asn
    separator          = " => "
    providers          = provider-as *(provider-separator provider-as)
-   provider-as        = asn / asn-limit-v4 /asn-limit-v6
+   provider-as        = asn / asn-limit-v4 / asn-limit-v6
    provider-separator = ", "
-
-   asn              = [AS]1*8DIGIT
-   asn-limit-v4     = asn "(v4)"
-   asn-limit-v6     = asn "(v6)"
+   uint32             = %d0-4294967295
+   asn                = ["AS"] uint32
+   asn-limit-v4       = asn "(v4)"
+   asn-limit-v6       = asn "(v6)"
 
 3.1.  customer-asid
 
@@ -157,6 +156,7 @@ Internet-Draft                ASPA Notation                     May 2023
    we use "asn-limit-v4" to represent a ProviderAS with an afiLimit for
    IPv4, and we use "asn-limit-v4" to represent a ProviderAS with an
    afiLimit for IPv6.
+
 
 
 

@@ -1392,16 +1392,15 @@ to use their own notation styles instead of, or in addition to this.<a href="#se
 <p id="section-3-1">This specification uses ABNF syntax specified in <span>[<a href="#RFC5234" class="cite xref">RFC5234</a>]</span>.<a href="#section-3-1" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-3-2">
 <pre>notation           = customer-asid separator providers
-
 customer-asid      = asn
 separator          = " =&gt; "
 providers          = provider-as *(provider-separator provider-as)
-provider-as        = asn / asn-limit-v4 /asn-limit-v6
+provider-as        = asn / asn-limit-v4 / asn-limit-v6
 provider-separator = ", "
-
-asn              = [AS]1*8DIGIT
-asn-limit-v4     = asn "(v4)"
-asn-limit-v6     = asn "(v6)"
+uint32             = %d0-4294967295
+asn                = ["AS"] uint32
+asn-limit-v4       = asn "(v4)"
+asn-limit-v6       = asn "(v6)"
 </pre><a href="#section-3-2" class="pilcrow">¶</a>
 </div>
 <div id="customer-asid">

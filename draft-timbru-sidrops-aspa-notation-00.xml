@@ -49,16 +49,15 @@ to use their own notation styles instead of, or in addition to this.</t>
 <t>This specification uses ABNF syntax specified in <xref target="RFC5234"></xref>.</t>
 
 <artwork>notation           = customer-asid separator providers
-
 customer-asid      = asn
 separator          = &quot; =&gt; &quot;
 providers          = provider-as *(provider-separator provider-as)
-provider-as        = asn / asn-limit-v4 /asn-limit-v6
+provider-as        = asn / asn-limit-v4 / asn-limit-v6
 provider-separator = &quot;, &quot;
-
-asn              = [AS]1*8DIGIT
-asn-limit-v4     = asn &quot;(v4)&quot;
-asn-limit-v6     = asn &quot;(v6)&quot;
+uint32             = %d0-4294967295
+asn                = [&quot;AS&quot;] uint32
+asn-limit-v4       = asn &quot;(v4)&quot;
+asn-limit-v6       = asn &quot;(v6)&quot;
 </artwork>
 
 <section anchor="customer-asid"><name>customer-asid</name>

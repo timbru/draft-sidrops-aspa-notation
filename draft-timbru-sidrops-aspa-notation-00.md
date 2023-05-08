@@ -77,16 +77,15 @@ This specification uses ABNF syntax specified in [@!RFC5234].
 
 ~~~
 notation           = customer-asid separator providers
-
 customer-asid      = asn
 separator          = " => "
 providers          = provider-as *(provider-separator provider-as)
-provider-as        = asn / asn-limit-v4 /asn-limit-v6
+provider-as        = asn / asn-limit-v4 / asn-limit-v6
 provider-separator = ", "
-
-asn              = [AS]1*8DIGIT
-asn-limit-v4     = asn "(v4)"
-asn-limit-v6     = asn "(v6)"
+uint32             = %d0-4294967295
+asn                = ["AS"] uint32
+asn-limit-v4       = asn "(v4)"
+asn-limit-v6       = asn "(v6)"
 ~~~
 
 ## customer-asid
