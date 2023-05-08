@@ -126,9 +126,10 @@ expressed as a single entry without an afiLimit.
 
 ## asn
 
-This field can optionally be prepended with the string "AS". It represents
-the decimal value of a 32 bit Autonomous System Number. Values MUST be
-part of the range 0-4294967295.
+This field can optionally be prepended with the string "AS" followed by
+a decimal value of a 32 bit Autonomous System Number using the asplain
+presentation as specified in [@!RFC5396]. Decimal values MUST be used,
+and values MUST be part of the range 0-4294967295.
 
 ## asn-v4
 

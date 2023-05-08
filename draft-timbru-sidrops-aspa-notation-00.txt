@@ -179,9 +179,10 @@ Internet-Draft                ASPA Notation                     May 2023
 
 3.3.  asn
 
-   This field can optionally be prepended with the string "AS".  It
-   represents the decimal value of a 32 bit Autonomous System Number.
-   Values MUST be part of the range 0-4294967295.
+   This field can optionally be prepended with the string "AS" followed
+   by a decimal value of a 32 bit Autonomous System Number using the
+   asplain presentation as specified in [RFC5396].  Decimal values MUST
+   be used, and values MUST be part of the range 0-4294967295.
 
 3.4.  asn-v4
 
@@ -215,9 +216,8 @@ Internet-Draft                ASPA Notation                     May 2023
 
 8.  Normative References
 
-   [I-D.ietf-sidrops-aspa-profile]
-              Azimov, A., Uskov, E., Bush, R., Snijders, J., Housley,
-              R., and B. Maddison, "A Profile for Autonomous System
+
+
 
 
 
@@ -226,6 +226,9 @@ Bruijnzeels, et al.      Expires 9 November 2023                [Page 4]
 Internet-Draft                ASPA Notation                     May 2023
 
 
+   [I-D.ietf-sidrops-aspa-profile]
+              Azimov, A., Uskov, E., Bush, R., Snijders, J., Housley,
+              R., and B. Maddison, "A Profile for Autonomous System
               Provider Authorization", Work in Progress, Internet-Draft,
               draft-ietf-sidrops-aspa-profile-13, 25 April 2023,
               <https://datatracker.ietf.org/doc/html/draft-ietf-sidrops-
@@ -240,6 +243,11 @@ Internet-Draft                ASPA Notation                     May 2023
               Specifications: ABNF", STD 68, RFC 5234,
               DOI 10.17487/RFC5234, January 2008,
               <https://www.rfc-editor.org/info/rfc5234>.
+
+   [RFC5396]  Huston, G. and G. Michaelson, "Textual Representation of
+              Autonomous System (AS) Numbers", RFC 5396,
+              DOI 10.17487/RFC5396, December 2008,
+              <https://www.rfc-editor.org/info/rfc5396>.
 
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
@@ -260,14 +268,6 @@ Authors' Addresses
    Di Ma
    ZDNS
    Email: madi@zdns.cn
-
-
-
-
-
-
-
-
 
 
 
