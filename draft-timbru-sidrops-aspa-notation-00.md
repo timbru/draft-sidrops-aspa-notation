@@ -15,7 +15,7 @@ fullname="Tim Bruijnzeels"
 organization = "NLnet Labs"
   [author.address]
   email = "tim@nlnetlabs.nl"
-  
+
 [[author]]
 initials="O."
 surname="Borchert"
@@ -23,6 +23,14 @@ fullname="Oliver Borchert"
 organization = "NIST"
   [author.address]
   email = "oliver.borchert@nist.gov"
+
+[[author]]
+initials="D."
+surname="Ma"
+fullname="Di Ma"
+organization = "ZDNS"
+  [author.address]
+  email = "madi@zdns.cn"
 
 [pi]
  toc = "yes"
@@ -34,11 +42,9 @@ organization = "NIST"
 
 .# Abstract
 
-This document defines a human readable ASPA notation for use with RPKI tooling.
-The desire is that this will help create consistency across various tools, and
-thus support the principle of least surprise to operators. That said, this
-definition is informational, and implementations can choose to use their own
-notation styles instead.
+This document defines a human readable notation for Validated ASPA
+Payloads (VAP, see ID-aspa-profile) for use with RPKI tooling based on
+ABNF (RFC 5234).
 
 {mainmatter}
 
@@ -49,78 +55,100 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
 this document are to be interpreted as described in BCP 14 [@!RFC2119]
 [@!RFC8174] when, and only when, they appear in all capitals, as shown here.
 
+# Introduction
+
+This informational document defines a human readable ASPA notation for
+Validated ASPA Payloads (VAPs) [@!I-D.ietf-sidrops-aspa-profile].
+
+The main motivations for providing this notations style are:
+* This can help to create consistency between RPKI Relying Party
+  software output, making it easier for operators to compare results.
+* This can be used by RPKI Certificate Authorities (CA) command line
+  interfaces and/or configuration. E.g. allowing a CA to provide a
+  listing of intended VAPs which can be easily compared to RP output.
+* This can be used for documentation.
+
+That said, this definition is informational. Implementations can choose
+to use their own notation styles instead of, or in addition to this.
+
 # ASPA Notation Definition
 
 This specification uses ABNF syntax specified in [@!RFC5234].
 
 ~~~
-notation           = customer-as separator provider-as-set
+notation           = customer-asid separator providers
 
-customer-as        = asn
+customer-asid      = asn
 separator          = " => "
-provider-as-set    = empty-list / provider-list
-
-empty-list         = "<none>"
-provider-list      = provider-as *(provider-separator provider-as)
-provider-as        = asn / asn-v4 /asn-v6
+providers          = provider-as *(provider-separator provider-as)
+provider-as        = asn / asn-limit-v4 /asn-limit-v6
 provider-separator = ", "
 
-asn              = 1*8DIGIT
-asn-v4           = asn "(v4)"
-asn-v6           = asn "(v6)"
+asn              = [AS]1*8DIGIT
+asn-limit-v4     = asn "(v4)"
+asn-limit-v6     = asn "(v6)"
 ~~~
 
-## customer-as
+## customer-asid
 
-This field represents the customerASID defined in section 3.3 of
-[@?I-D.ietf-sidrops-aspa-profile]
+This field represents the customerASID defined in section 3.2 of
+[@!I-D.ietf-sidrops-aspa-profile]
 
-## provider-as-set
+## providers
 
-This field represents the providerASSET defined in section 3.4 of
-[@?I-D.ietf-sidrops-aspa-profile]. For the moment we assume that version -07
-of this document will allow the use of an explicit empty provider AS set,
-rather than using AS0 for this purpose.
+This field represents the providers defined in section 3.3 of
+[@!I-D.ietf-sidrops-aspa-profile]. Note that the constraints defined
+there are also applicable here. In short:
 
-### empty-list
-
-If an ASPA has no providers this is explicitly specified by using the value "<none>".
-
-### provider-list
-
-If an ASPA has at least one provider then we need to specify them. I.e. we need
-to mention the first provider-as and, if applicable, all following provider-as
-values separated by a comma and space character. Note that provider-as values
-MUST be sorted by their asn value.
+* There MUST be at least one provider-as.
+* The customer-asid "asn" value MUST NOT appear in any provider-as.
+* The elements of providers MUST be ordered in ascending numerical order
+  by the "asn" value of the provider-as field.
+* Each "asn" MUST be unique.
 
 ### provider-as
 
-A provider-as can be an 'asn', 'asn-v4' or 'asn-v6'. Note that the latter two
-options include an 'asn', but limit the scope of the provider to an address family,
-IPv4 and IPv6 respectively. A specification MUST NOT contain more than one provider-as
-for the same 'asn' - e.g. a provider cannot be defined without address family limit
-AND with such a limit.
+This field represents a ProviderAS as defined in section 3.3.1 of
+[@!I-D.ietf-sidrops-aspa-profile].
+
+A ProviderAS in ASPA consists of a providerASID (section 3.3.1.1) and
+an optional afiLimit (section 3.3.1.2). In the notation defined here
+we use a simple "asn" to represent a ProviderAS that has no afiLimit,
+we use "asn-limit-v4" to represent a ProviderAS with an afiLimit for
+IPv4, and we use "asn-limit-v4" to represent a ProviderAS with an afiLimit
+for IPv6.
+
+As mentioned earlier: the same "asn" MUST NOT appear more than once in
+the providers. There is no point in listing the same "asn" with and
+without an afiLimit, as the entry without an afiLimit already encompassed
+the other. Similarly, there is no point in listing the same "asn" with
+an IPv4 and an IPv6 limit, as this can and must be more concisely
+expressed as a single entry without an afiLimit.
 
 ## asn
 
-This represents the decimal value of a 32 bit Autonomous System Number. Values
-MUST be part of the range 0-4294967295.
+This field can optionally be prepended with the string "AS". It represents
+the decimal value of a 32 bit Autonomous System Number. Values MUST be
+part of the range 0-4294967295.
 
 ## asn-v4
 
-This represents a provider ASN which is authorised for IPv4 only.
+This represents a providerAS that uses an afiLimit for IPv4.
 
 ## asn-v6
 
-This represents a provider ASN which is authorised for IPv6 only.
+This represents a providerAS that uses an afiLimit for IPv6.
 
 # Example Notations
 
 ~~~
-AS65000 => <none>
 AS65000 => AS65001
 AS65000 => AS65002(v4)
 AS65000 => AS65001, AS65002(v4), AS65003(v6)
+
+65000 => 65001
+65000 => AS65002(v4)
+65000 => 65001, 65002(v4), 65003(v6)
 ~~~
 
 # IANA Considerations

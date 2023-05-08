@@ -8,16 +8,16 @@
 </postal><email>tim@nlnetlabs.nl</email>
 </address></author><author initials="O." surname="Borchert" fullname="Oliver Borchert"><organization>NIST</organization><address><postal><street></street>
 </postal><email>oliver.borchert@nist.gov</email>
+</address></author><author initials="D." surname="Ma" fullname="Di Ma"><organization>ZDNS</organization><address><postal><street></street>
+</postal><email>madi@zdns.cn</email>
 </address></author><date/>
 <area>Internet</area>
 <workgroup></workgroup>
 
 <abstract>
-<t>This document defines a human readable ASPA notation for use with RPKI tooling.
-The desire is that this will help create consistency across various tools, and
-thus support the principle of least surprise to operators. That said, this
-definition is informational, and implementations can choose to use their own
-notation styles instead.</t>
+<t>This document defines a human readable notation for Validated ASPA
+Payloads (VAP, see ID-aspa-profile) for use with RPKI tooling based on
+ABNF (RFC 5234).</t>
 </abstract>
 
 </front>
@@ -31,76 +31,96 @@ this document are to be interpreted as described in BCP 14 <xref target="RFC2119
 <xref target="RFC8174"></xref> when, and only when, they appear in all capitals, as shown here.</t>
 </section>
 
+<section anchor="introduction"><name>Introduction</name>
+<t>This informational document defines a human readable ASPA notation for
+Validated ASPA Payloads (VAPs) <xref target="I-D.ietf-sidrops-aspa-profile"></xref>.</t>
+<t>The main motivations for providing this notations style are:
+* This can help to create consistency between RPKI Relying Party
+  software output, making it easier for operators to compare results.
+* This can be used by RPKI Certificate Authorities (CA) command line
+  interfaces and/or configuration. E.g. allowing a CA to provide a
+  listing of intended VAPs which can be easily compared to RP output.
+* This can be used for documentation.</t>
+<t>That said, this definition is informational. Implementations can choose
+to use their own notation styles instead of, or in addition to this.</t>
+</section>
+
 <section anchor="aspa-notation-definition"><name>ASPA Notation Definition</name>
 <t>This specification uses ABNF syntax specified in <xref target="RFC5234"></xref>.</t>
 
-<artwork>notation           = customer-as separator provider-as-set
+<artwork>notation           = customer-asid separator providers
 
-customer-as        = asn
+customer-asid      = asn
 separator          = &quot; =&gt; &quot;
-provider-as-set    = empty-list / provider-list
-
-empty-list         = &quot;&lt;none&gt;&quot;
-provider-list      = provider-as *(provider-separator provider-as)
-provider-as        = asn / asn-v4 /asn-v6
+providers          = provider-as *(provider-separator provider-as)
+provider-as        = asn / asn-limit-v4 /asn-limit-v6
 provider-separator = &quot;, &quot;
 
-asn              = 1*8DIGIT
-asn-v4           = asn &quot;(v4)&quot;
-asn-v6           = asn &quot;(v6)&quot;
+asn              = [AS]1*8DIGIT
+asn-limit-v4     = asn &quot;(v4)&quot;
+asn-limit-v6     = asn &quot;(v6)&quot;
 </artwork>
 
-<section anchor="customer-as"><name>customer-as</name>
-<t>This field represents the customerASID defined in section 3.3 of
+<section anchor="customer-asid"><name>customer-asid</name>
+<t>This field represents the customerASID defined in section 3.2 of
 <xref target="I-D.ietf-sidrops-aspa-profile"></xref></t>
 </section>
 
-<section anchor="provider-as-set"><name>provider-as-set</name>
-<t>This field represents the providerASSET defined in section 3.4 of
-<xref target="I-D.ietf-sidrops-aspa-profile"></xref>. For the moment we assume that version -07
-of this document will allow the use of an explicit empty provider AS set,
-rather than using AS0 for this purpose.</t>
+<section anchor="providers"><name>providers</name>
+<t>This field represents the providers defined in section 3.3 of
+<xref target="I-D.ietf-sidrops-aspa-profile"></xref>. Note that the constraints defined
+there are also applicable here. In short:</t>
 
-<section anchor="empty-list"><name>empty-list</name>
-<t>If an ASPA has no providers this is explicitly specified by using the value &quot;&lt;none&gt;&quot;.</t>
-</section>
-
-<section anchor="provider-list"><name>provider-list</name>
-<t>If an ASPA has at least one provider then we need to specify them. I.e. we need
-to mention the first provider-as and, if applicable, all following provider-as
-values separated by a comma and space character. Note that provider-as values
-MUST be sorted by their asn value.</t>
-</section>
+<ul>
+<li>There MUST be at least one provider-as.</li>
+<li>The customer-asid &quot;asn&quot; value MUST NOT appear in any provider-as.</li>
+<li>The elements of providers MUST be ordered in ascending numerical order
+by the &quot;asn&quot; value of the provider-as field.</li>
+<li>Each &quot;asn&quot; MUST be unique.</li>
+</ul>
 
 <section anchor="provider-as"><name>provider-as</name>
-<t>A provider-as can be an 'asn', 'asn-v4' or 'asn-v6'. Note that the latter two
-options include an 'asn', but limit the scope of the provider to an address family,
-IPv4 and IPv6 respectively. A specification MUST NOT contain more than one provider-as
-for the same 'asn' - e.g. a provider cannot be defined without address family limit
-AND with such a limit.</t>
+<t>This field represents a ProviderAS as defined in section 3.3.1 of
+<xref target="I-D.ietf-sidrops-aspa-profile"></xref>.</t>
+<t>A ProviderAS in ASPA consists of a providerASID (section 3.3.1.1) and
+an optional afiLimit (section 3.3.1.2). In the notation defined here
+we use a simple &quot;asn&quot; to represent a ProviderAS that has no afiLimit,
+we use &quot;asn-limit-v4&quot; to represent a ProviderAS with an afiLimit for
+IPv4, and we use &quot;asn-limit-v4&quot; to represent a ProviderAS with an afiLimit
+for IPv6.</t>
+<t>As mentioned earlier: the same &quot;asn&quot; MUST NOT appear more than once in
+the providers. There is no point in listing the same &quot;asn&quot; with and
+without an afiLimit, as the entry without an afiLimit already encompassed
+the other. Similarly, there is no point in listing the same &quot;asn&quot; with
+an IPv4 and an IPv6 limit, as this can and must be more concisely
+expressed as a single entry without an afiLimit.</t>
 </section>
 </section>
 
 <section anchor="asn"><name>asn</name>
-<t>This represents the decimal value of a 32 bit Autonomous System Number. Values
-MUST be part of the range 0-4294967295.</t>
+<t>This field can optionally be prepended with the string &quot;AS&quot;. It represents
+the decimal value of a 32 bit Autonomous System Number. Values MUST be
+part of the range 0-4294967295.</t>
 </section>
 
 <section anchor="asn-v4"><name>asn-v4</name>
-<t>This represents a provider ASN which is authorised for IPv4 only.</t>
+<t>This represents a providerAS that uses an afiLimit for IPv4.</t>
 </section>
 
 <section anchor="asn-v6"><name>asn-v6</name>
-<t>This represents a provider ASN which is authorised for IPv6 only.</t>
+<t>This represents a providerAS that uses an afiLimit for IPv6.</t>
 </section>
 </section>
 
 <section anchor="example-notations"><name>Example Notations</name>
 
-<artwork>AS65000 =&gt; &lt;none&gt;
-AS65000 =&gt; AS65001
+<artwork>AS65000 =&gt; AS65001
 AS65000 =&gt; AS65002(v4)
 AS65000 =&gt; AS65001, AS65002(v4), AS65003(v6)
+
+65000 =&gt; 65001
+65000 =&gt; AS65002(v4)
+65000 =&gt; 65001, 65002(v4), 65003(v6)
 </artwork>
 </section>
 
@@ -120,12 +140,10 @@ AS65000 =&gt; AS65001, AS65002(v4), AS65003(v6)
 
 <back>
 <references><name>Normative References</name>
+<xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-sidrops-aspa-profile.xml"/>
 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"/>
 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5234.xml"/>
 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8174.xml"/>
-</references>
-<references><name>Informative References</name>
-<xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-sidrops-aspa-profile.xml"/>
 </references>
 
 </back>

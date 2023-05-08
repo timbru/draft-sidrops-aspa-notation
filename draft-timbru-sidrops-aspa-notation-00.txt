@@ -5,8 +5,10 @@
 Network Working Group                                     T. Bruijnzeels
 Internet-Draft                                                NLnet Labs
 Intended status: Informational                               O. Borchert
-Expires: 21 May 2022                                                NIST
-                                                        17 November 2021
+Expires: 9 November 2023                                            NIST
+                                                                   D. Ma
+                                                                    ZDNS
+                                                              8 May 2023
 
 
                       Human Readable ASPA Notation
@@ -14,12 +16,9 @@ Expires: 21 May 2022                                                NIST
 
 Abstract
 
-   This document defines a human readable ASPA notation for use with
-   RPKI tooling.  The desire is that this will help create consistency
-   across various tools, and thus support the principle of least
-   surprise to operators.  That said, this definition is informational,
-   and implementations can choose to use their own notation styles
-   instead.
+   This document defines a human readable notation for Validated ASPA
+   Payloads (VAP, see ID-aspa-profile) for use with RPKI tooling based
+   on ABNF (RFC 5234).
 
 Status of This Memo
 
@@ -36,55 +35,45 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 21 May 2022.
+   This Internet-Draft will expire on 9 November 2023.
 
 Copyright Notice
 
-   Copyright (c) 2021 IETF Trust and the persons identified as the
+   Copyright (c) 2023 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
-
-
-
-
-
-
-
-
-
-
-
-Bruijnzeels & Borchert     Expires 21 May 2022                  [Page 1]
-
-Internet-Draft                ASPA Notation                November 2021
-
 
    This document is subject to BCP 78 and the IETF Trust's Legal
    Provisions Relating to IETF Documents (https://trustee.ietf.org/
    license-info) in effect on the date of publication of this document.
    Please review these documents carefully, as they describe your rights
    and restrictions with respect to this document.  Code Components
-   extracted from this document must include Simplified BSD License text
-   as described in Section 4.e of the Trust Legal Provisions and are
-   provided without warranty as described in the Simplified BSD License.
+   extracted from this document must include Revised BSD License text as
+   described in Section 4.e of the Trust Legal Provisions and are
+   provided without warranty as described in the Revised BSD License.
+
+
+
+Bruijnzeels, et al.      Expires 9 November 2023                [Page 1]
+
+Internet-Draft                ASPA Notation                     May 2023
+
 
 Table of Contents
 
    1.  Requirements notation . . . . . . . . . . . . . . . . . . . .   2
-   2.  ASPA Notation Definition  . . . . . . . . . . . . . . . . . .   2
-     2.1.  customer-as . . . . . . . . . . . . . . . . . . . . . . .   3
-     2.2.  provider-as-set . . . . . . . . . . . . . . . . . . . . .   3
-       2.2.1.  empty-list  . . . . . . . . . . . . . . . . . . . . .   3
-       2.2.2.  provider-list . . . . . . . . . . . . . . . . . . . .   3
-       2.2.3.  provider-as . . . . . . . . . . . . . . . . . . . . .   3
-     2.3.  asn . . . . . . . . . . . . . . . . . . . . . . . . . . .   4
-     2.4.  asn-v4  . . . . . . . . . . . . . . . . . . . . . . . . .   4
-     2.5.  asn-v6  . . . . . . . . . . . . . . . . . . . . . . . . .   4
-   3.  Example Notations . . . . . . . . . . . . . . . . . . . . . .   4
-   4.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   4
-   5.  Security Considerations . . . . . . . . . . . . . . . . . . .   4
-   6.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .   4
-   7.  Normative References  . . . . . . . . . . . . . . . . . . . .   4
-   8.  Informative References  . . . . . . . . . . . . . . . . . . .   5
+   2.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
+   3.  ASPA Notation Definition  . . . . . . . . . . . . . . . . . .   2
+     3.1.  customer-asid . . . . . . . . . . . . . . . . . . . . . .   3
+     3.2.  providers . . . . . . . . . . . . . . . . . . . . . . . .   3
+       3.2.1.  provider-as . . . . . . . . . . . . . . . . . . . . .   3
+     3.3.  asn . . . . . . . . . . . . . . . . . . . . . . . . . . .   4
+     3.4.  asn-v4  . . . . . . . . . . . . . . . . . . . . . . . . .   4
+     3.5.  asn-v6  . . . . . . . . . . . . . . . . . . . . . . . . .   4
+   4.  Example Notations . . . . . . . . . . . . . . . . . . . . . .   4
+   5.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   4
+   6.  Security Considerations . . . . . . . . . . . . . . . . . . .   4
+   7.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .   4
+   8.  Normative References  . . . . . . . . . . . . . . . . . . . .   4
    Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .   5
 
 1.  Requirements notation
@@ -95,7 +84,24 @@ Table of Contents
    14 [RFC2119] [RFC8174] when, and only when, they appear in all
    capitals, as shown here.
 
-2.  ASPA Notation Definition
+2.  Introduction
+
+   This informational document defines a human readable ASPA notation
+   for Validated ASPA Payloads (VAPs) [I-D.ietf-sidrops-aspa-profile].
+
+   The main motivations for providing this notations style are: * This
+   can help to create consistency between RPKI Relying Party software
+   output, making it easier for operators to compare results. * This can
+   be used by RPKI Certificate Authorities (CA) command line interfaces
+   and/or configuration.  E.g. allowing a CA to provide a listing of
+   intended VAPs which can be easily compared to RP output. * This can
+   be used for documentation.
+
+   That said, this definition is informational.  Implementations can
+   choose to use their own notation styles instead of, or in addition to
+   this.
+
+3.  ASPA Notation Definition
 
    This specification uses ABNF syntax specified in [RFC5234].
 
@@ -103,106 +109,127 @@ Table of Contents
 
 
 
-
-
-
-
-
-
-Bruijnzeels & Borchert     Expires 21 May 2022                  [Page 2]
+Bruijnzeels, et al.      Expires 9 November 2023                [Page 2]
 
-Internet-Draft                ASPA Notation                November 2021
+Internet-Draft                ASPA Notation                     May 2023
 
 
-   notation           = customer-as separator provider-as-set
+   notation           = customer-asid separator providers
 
-   customer-as        = asn
+   customer-asid      = asn
    separator          = " => "
-   provider-as-set    = empty-list / provider-list
-
-   empty-list         = "<none>"
-   provider-list      = provider-as *(provider-separator provider-as)
-   provider-as        = asn / asn-v4 /asn-v6
+   providers          = provider-as *(provider-separator provider-as)
+   provider-as        = asn / asn-limit-v4 /asn-limit-v6
    provider-separator = ", "
 
-   asn              = 1*8DIGIT
-   asn-v4           = asn "(v4)"
-   asn-v6           = asn "(v6)"
+   asn              = [AS]1*8DIGIT
+   asn-limit-v4     = asn "(v4)"
+   asn-limit-v6     = asn "(v6)"
 
-2.1.  customer-as
+3.1.  customer-asid
 
-   This field represents the customerASID defined in section 3.3 of
+   This field represents the customerASID defined in section 3.2 of
    [I-D.ietf-sidrops-aspa-profile]
 
-2.2.  provider-as-set
+3.2.  providers
 
-   This field represents the providerASSET defined in section 3.4 of
-   [I-D.ietf-sidrops-aspa-profile].  For the moment we assume that
-   version -07 of this document will allow the use of an explicit empty
-   provider AS set, rather than using AS0 for this purpose.
+   This field represents the providers defined in section 3.3 of
+   [I-D.ietf-sidrops-aspa-profile].  Note that the constraints defined
+   there are also applicable here.  In short:
 
-2.2.1.  empty-list
+   *  There MUST be at least one provider-as.
 
-   If an ASPA has no providers this is explicitly specified by using the
-   value "<none>".
+   *  The customer-asid "asn" value MUST NOT appear in any provider-as.
 
-2.2.2.  provider-list
+   *  The elements of providers MUST be ordered in ascending numerical
+      order by the "asn" value of the provider-as field.
 
-   If an ASPA has at least one provider then we need to specify them.
-   I.e. we need to mention the first provider-as and, if applicable, all
-   following provider-as values separated by a comma and space
-   character.  Note that provider-as values MUST be sorted by their asn
-   value.
+   *  Each "asn" MUST be unique.
 
-2.2.3.  provider-as
+3.2.1.  provider-as
 
-   A provider-as can be an 'asn', 'asn-v4' or 'asn-v6'.  Note that the
-   latter two options include an 'asn', but limit the scope of the
-   provider to an address family, IPv4 and IPv6 respectively.  A
-   specification MUST NOT contain more than one provider-as for the same
-   'asn' - e.g. a provider cannot be defined without address family
-   limit AND with such a limit.
+   This field represents a ProviderAS as defined in section 3.3.1 of
+   [I-D.ietf-sidrops-aspa-profile].
+
+   A ProviderAS in ASPA consists of a providerASID (section 3.3.1.1) and
+   an optional afiLimit (section 3.3.1.2).  In the notation defined here
+   we use a simple "asn" to represent a ProviderAS that has no afiLimit,
+   we use "asn-limit-v4" to represent a ProviderAS with an afiLimit for
+   IPv4, and we use "asn-limit-v4" to represent a ProviderAS with an
+   afiLimit for IPv6.
 
 
 
-Bruijnzeels & Borchert     Expires 21 May 2022                  [Page 3]
+
+
+
+
+
+Bruijnzeels, et al.      Expires 9 November 2023                [Page 3]
 
-Internet-Draft                ASPA Notation                November 2021
+Internet-Draft                ASPA Notation                     May 2023
 
 
-2.3.  asn
+   As mentioned earlier: the same "asn" MUST NOT appear more than once
+   in the providers.  There is no point in listing the same "asn" with
+   and without an afiLimit, as the entry without an afiLimit already
+   encompassed the other.  Similarly, there is no point in listing the
+   same "asn" with an IPv4 and an IPv6 limit, as this can and must be
+   more concisely expressed as a single entry without an afiLimit.
 
-   This represents the decimal value of a 32 bit Autonomous System
-   Number.  Values MUST be part of the range 0-4294967295.
+3.3.  asn
 
-2.4.  asn-v4
+   This field can optionally be prepended with the string "AS".  It
+   represents the decimal value of a 32 bit Autonomous System Number.
+   Values MUST be part of the range 0-4294967295.
 
-   This represents a provider ASN which is authorised for IPv4 only.
+3.4.  asn-v4
 
-2.5.  asn-v6
+   This represents a providerAS that uses an afiLimit for IPv4.
 
-   This represents a provider ASN which is authorised for IPv6 only.
+3.5.  asn-v6
 
-3.  Example Notations
+   This represents a providerAS that uses an afiLimit for IPv6.
 
-   AS65000 => <none>
+4.  Example Notations
+
    AS65000 => AS65001
    AS65000 => AS65002(v4)
    AS65000 => AS65001, AS65002(v4), AS65003(v6)
 
-4.  IANA Considerations
+   65000 => 65001
+   65000 => AS65002(v4)
+   65000 => 65001, 65002(v4), 65003(v6)
+
+5.  IANA Considerations
 
    This document has no IANA actions.
 
-5.  Security Considerations
+6.  Security Considerations
 
    TBD
 
-6.  Acknowledgements
+7.  Acknowledgements
 
    TBD
 
-7.  Normative References
+8.  Normative References
+
+   [I-D.ietf-sidrops-aspa-profile]
+              Azimov, A., Uskov, E., Bush, R., Snijders, J., Housley,
+              R., and B. Maddison, "A Profile for Autonomous System
+
+
+
+Bruijnzeels, et al.      Expires 9 November 2023                [Page 4]
+
+Internet-Draft                ASPA Notation                     May 2023
+
+
+              Provider Authorization", Work in Progress, Internet-Draft,
+              draft-ietf-sidrops-aspa-profile-13, 25 April 2023,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-sidrops-
+              aspa-profile-13>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -218,38 +245,21 @@ Internet-Draft                ASPA Notation                November 2021
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/info/rfc8174>.
 
-
-
-
-Bruijnzeels & Borchert     Expires 21 May 2022                  [Page 4]
-
-Internet-Draft                ASPA Notation                November 2021
-
-
-8.  Informative References
-
-   [I-D.ietf-sidrops-aspa-profile]
-              Azimov, A., Uskov, E., Bush, R., Patel, K., Snijders, J.,
-              and R. Housley, "A Profile for Autonomous System Provider
-              Authorization", Work in Progress, Internet-Draft, draft-
-              ietf-sidrops-aspa-profile-06, 30 July 2021,
-              <https://datatracker.ietf.org/doc/html/draft-ietf-sidrops-
-              aspa-profile-06>.
-
 Authors' Addresses
 
    Tim Bruijnzeels
    NLnet Labs
-
    Email: tim@nlnetlabs.nl
 
 
    Oliver Borchert
    NIST
-
    Email: oliver.borchert@nist.gov
 
 
+   Di Ma
+   ZDNS
+   Email: madi@zdns.cn
 
 
 
@@ -267,14 +277,4 @@ Authors' Addresses
 
 
 
-
-
-
-
-
-
-
-
-
-
-Bruijnzeels & Borchert     Expires 21 May 2022                  [Page 5]
+Bruijnzeels, et al.      Expires 9 November 2023                [Page 5]
