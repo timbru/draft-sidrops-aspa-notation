@@ -67,15 +67,16 @@ asn-limit-v6       = asn &quot;(v6)&quot;
 
 <section anchor="providers"><name>providers</name>
 <t>This field represents the providers defined in section 3.3 of
-<xref target="I-D.ietf-sidrops-aspa-profile"></xref>. Note that the constraints defined
-there are also applicable here. In short:</t>
+<xref target="I-D.ietf-sidrops-aspa-profile"></xref>. Note that the normative constraints
+which are defined in that section mean that following :</t>
 
 <ul>
-<li>There MUST be at least one provider-as.</li>
-<li>The customer-asid &quot;asn&quot; value MUST NOT appear in any provider-as.</li>
-<li>The elements of providers MUST be ordered in ascending numerical order
+<li>There must be at least one provider-as.</li>
+<li>The customer-asid &quot;asn&quot; value must not appear in any provider-as.</li>
+<li>The elements of providers must be ordered in ascending numerical order
 by the &quot;asn&quot; value of the provider-as field.</li>
-<li>Each &quot;asn&quot; MUST be unique.</li>
+<li>Each &quot;asn&quot; value for used for a provider-as must be unique. Assertions
+for the same &quot;asn&quot; with different afiLimit values must be merged.</li>
 </ul>
 
 <section anchor="provider-as"><name>provider-as</name>

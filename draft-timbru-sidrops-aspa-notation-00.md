@@ -96,14 +96,15 @@ This field represents the customerASID defined in section 3.2 of
 ## providers
 
 This field represents the providers defined in section 3.3 of
-[@!I-D.ietf-sidrops-aspa-profile]. Note that the constraints defined
-there are also applicable here. In short:
+[@!I-D.ietf-sidrops-aspa-profile]. Note that the normative constraints
+which are defined in that section mean that following :
 
-* There MUST be at least one provider-as.
-* The customer-asid "asn" value MUST NOT appear in any provider-as.
-* The elements of providers MUST be ordered in ascending numerical order
+* There must be at least one provider-as.
+* The customer-asid "asn" value must not appear in any provider-as.
+* The elements of providers must be ordered in ascending numerical order
   by the "asn" value of the provider-as field.
-* Each "asn" MUST be unique.
+* Each "asn" value for used for a provider-as must be unique. Assertions
+  for the same "asn" with different afiLimit values must be merged.
 
 ### provider-as
 

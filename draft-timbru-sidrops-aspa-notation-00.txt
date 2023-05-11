@@ -5,10 +5,10 @@
 Network Working Group                                     T. Bruijnzeels
 Internet-Draft                                                NLnet Labs
 Intended status: Informational                               O. Borchert
-Expires: 9 November 2023                                            NIST
+Expires: 12 November 2023                                           NIST
                                                                    D. Ma
                                                                     ZDNS
-                                                              8 May 2023
+                                                             11 May 2023
 
 
                       Human Readable ASPA Notation
@@ -35,7 +35,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 9 November 2023.
+   This Internet-Draft will expire on 12 November 2023.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Bruijnzeels, et al.      Expires 9 November 2023                [Page 1]
+Bruijnzeels, et al.     Expires 12 November 2023                [Page 1]
 
 Internet-Draft                ASPA Notation                     May 2023
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Bruijnzeels, et al.      Expires 9 November 2023                [Page 2]
+Bruijnzeels, et al.     Expires 12 November 2023                [Page 2]
 
 Internet-Draft                ASPA Notation                     May 2023
 
@@ -133,17 +133,19 @@ Internet-Draft                ASPA Notation                     May 2023
 3.2.  providers
 
    This field represents the providers defined in section 3.3 of
-   [I-D.ietf-sidrops-aspa-profile].  Note that the constraints defined
-   there are also applicable here.  In short:
+   [I-D.ietf-sidrops-aspa-profile].  Note that the normative constraints
+   which are defined in that section mean that following :
 
-   *  There MUST be at least one provider-as.
+   *  There must be at least one provider-as.
 
-   *  The customer-asid "asn" value MUST NOT appear in any provider-as.
+   *  The customer-asid "asn" value must not appear in any provider-as.
 
-   *  The elements of providers MUST be ordered in ascending numerical
+   *  The elements of providers must be ordered in ascending numerical
       order by the "asn" value of the provider-as field.
 
-   *  Each "asn" MUST be unique.
+   *  Each "asn" value for used for a provider-as must be unique.
+      Assertions for the same "asn" with different afiLimit values must
+      be merged.
 
 3.2.1.  provider-as
 
@@ -157,22 +159,17 @@ Internet-Draft                ASPA Notation                     May 2023
    IPv4, and we use "asn-limit-v4" to represent a ProviderAS with an
    afiLimit for IPv6.
 
+   As mentioned earlier: the same "asn" MUST NOT appear more than once
+   in the providers.  There is no point in listing the same "asn" with
+   and without an afiLimit, as the entry without an afiLimit already
 
 
 
-
-
-
-
-
-Bruijnzeels, et al.      Expires 9 November 2023                [Page 3]
+Bruijnzeels, et al.     Expires 12 November 2023                [Page 3]
 
 Internet-Draft                ASPA Notation                     May 2023
 
 
-   As mentioned earlier: the same "asn" MUST NOT appear more than once
-   in the providers.  There is no point in listing the same "asn" with
-   and without an afiLimit, as the entry without an afiLimit already
    encompassed the other.  Similarly, there is no point in listing the
    same "asn" with an IPv4 and an IPv6 limit, as this can and must be
    more concisely expressed as a single entry without an afiLimit.
@@ -221,7 +218,10 @@ Internet-Draft                ASPA Notation                     May 2023
 
 
 
-Bruijnzeels, et al.      Expires 9 November 2023                [Page 4]
+
+
+
+Bruijnzeels, et al.     Expires 12 November 2023                [Page 4]
 
 Internet-Draft                ASPA Notation                     May 2023
 
@@ -277,4 +277,4 @@ Authors' Addresses
 
 
 
-Bruijnzeels, et al.      Expires 9 November 2023                [Page 5]
+Bruijnzeels, et al.     Expires 12 November 2023                [Page 5]
