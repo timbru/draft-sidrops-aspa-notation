@@ -6,7 +6,7 @@ ipr = "trust200902"
 [seriesInfo]
 status = "informational"
 name = "Internet-Draft"
-value = "draft-timbru-sidrops-aspa-notation-00"
+value = "draft-timbru-sidrops-aspa-notation-01"
 
 [[author]]
 initials="T."
@@ -80,12 +80,10 @@ notation           = customer-asid separator providers
 customer-asid      = asn
 separator          = " => "
 providers          = provider-as *(provider-separator provider-as)
-provider-as        = asn / asn-limit-v4 / asn-limit-v6
+provider-as        = asn
 provider-separator = ", "
-uint32             = %d0-4294967295
 asn                = ["AS"] uint32
-asn-limit-v4       = asn "(v4)"
-asn-limit-v6       = asn "(v6)"
+uint32             = %d0-4294967295
 ~~~
 
 ## customer-asid
@@ -103,27 +101,12 @@ which are defined in that section mean that following :
 * The customer-asid "asn" value must not appear in any provider-as.
 * The elements of providers must be ordered in ascending numerical order
   by the "asn" value of the provider-as field.
-* Each "asn" value for used for a provider-as must be unique. Assertions
-  for the same "asn" with different afiLimit values must be merged.
+* Each "asn" value for used for a provider-as must be unique.
 
 ### provider-as
 
-This field represents a ProviderAS as defined in section 3.3.1 of
+This field represents a Provider AS as defined in section 3.3 of
 [@!I-D.ietf-sidrops-aspa-profile].
-
-A ProviderAS in ASPA consists of a providerASID (section 3.3.1.1) and
-an optional afiLimit (section 3.3.1.2). In the notation defined here
-we use a simple "asn" to represent a ProviderAS that has no afiLimit,
-we use "asn-limit-v4" to represent a ProviderAS with an afiLimit for
-IPv4, and we use "asn-limit-v4" to represent a ProviderAS with an afiLimit
-for IPv6.
-
-As mentioned earlier: the same "asn" MUST NOT appear more than once in
-the providers. There is no point in listing the same "asn" with and
-without an afiLimit, as the entry without an afiLimit already encompassed
-the other. Similarly, there is no point in listing the same "asn" with
-an IPv4 and an IPv6 limit, as this can and must be more concisely
-expressed as a single entry without an afiLimit.
 
 ## asn
 
@@ -132,24 +115,16 @@ a decimal value of a 32 bit Autonomous System Number using the asplain
 presentation as specified in [@!RFC5396]. Decimal values MUST be used,
 and values MUST be part of the range 0-4294967295.
 
-## asn-v4
-
-This represents a providerAS that uses an afiLimit for IPv4.
-
-## asn-v6
-
-This represents a providerAS that uses an afiLimit for IPv6.
-
 # Example Notations
 
 ~~~
 AS65000 => AS65001
-AS65000 => AS65002(v4)
-AS65000 => AS65001, AS65002(v4), AS65003(v6)
+AS65000 => AS65002
+AS65000 => AS65001, AS65002, AS65003
 
 65000 => 65001
-65000 => AS65002(v4)
-65000 => 65001, 65002(v4), 65003(v6)
+65000 => AS65002
+65000 => 65001, 65002, 65003
 ~~~
 
 # IANA Considerations

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- name="GENERATOR" content="github.com/mmarkdown/mmark Mmark Markdown Processor - mmark.miek.nl" -->
-<rfc version="3" ipr="trust200902" docName="draft-timbru-sidrops-aspa-notation-00" submissionType="IETF" category="info" xml:lang="en" xmlns:xi="http://www.w3.org/2001/XInclude" indexInclude="false" consensus="true">
+<rfc version="3" ipr="trust200902" docName="draft-timbru-sidrops-aspa-notation-01" submissionType="IETF" category="info" xml:lang="en" xmlns:xi="http://www.w3.org/2001/XInclude" indexInclude="false" consensus="true">
 
 <front>
-<title abbrev="ASPA Notation">Human Readable ASPA Notation</title><seriesInfo value="draft-timbru-sidrops-aspa-notation-00" status="informational" name="Internet-Draft"></seriesInfo>
+<title abbrev="ASPA Notation">Human Readable ASPA Notation</title><seriesInfo value="draft-timbru-sidrops-aspa-notation-01" status="informational" name="Internet-Draft"></seriesInfo>
 <author initials="T." surname="Bruijnzeels" fullname="Tim Bruijnzeels"><organization>NLnet Labs</organization><address><postal><street></street>
 </postal><email>tim@nlnetlabs.nl</email>
 </address></author><author initials="O." surname="Borchert" fullname="Oliver Borchert"><organization>NIST</organization><address><postal><street></street>
@@ -52,12 +52,10 @@ to use their own notation styles instead of, or in addition to this.</t>
 customer-asid      = asn
 separator          = &quot; =&gt; &quot;
 providers          = provider-as *(provider-separator provider-as)
-provider-as        = asn / asn-limit-v4 / asn-limit-v6
+provider-as        = asn
 provider-separator = &quot;, &quot;
-uint32             = %d0-4294967295
 asn                = [&quot;AS&quot;] uint32
-asn-limit-v4       = asn &quot;(v4)&quot;
-asn-limit-v6       = asn &quot;(v6)&quot;
+uint32             = %d0-4294967295
 </artwork>
 
 <section anchor="customer-asid"><name>customer-asid</name>
@@ -75,25 +73,12 @@ which are defined in that section mean that following :</t>
 <li>The customer-asid &quot;asn&quot; value must not appear in any provider-as.</li>
 <li>The elements of providers must be ordered in ascending numerical order
 by the &quot;asn&quot; value of the provider-as field.</li>
-<li>Each &quot;asn&quot; value for used for a provider-as must be unique. Assertions
-for the same &quot;asn&quot; with different afiLimit values must be merged.</li>
+<li>Each &quot;asn&quot; value for used for a provider-as must be unique.</li>
 </ul>
 
 <section anchor="provider-as"><name>provider-as</name>
-<t>This field represents a ProviderAS as defined in section 3.3.1 of
+<t>This field represents a Provider AS as defined in section 3.3 of
 <xref target="I-D.ietf-sidrops-aspa-profile"></xref>.</t>
-<t>A ProviderAS in ASPA consists of a providerASID (section 3.3.1.1) and
-an optional afiLimit (section 3.3.1.2). In the notation defined here
-we use a simple &quot;asn&quot; to represent a ProviderAS that has no afiLimit,
-we use &quot;asn-limit-v4&quot; to represent a ProviderAS with an afiLimit for
-IPv4, and we use &quot;asn-limit-v4&quot; to represent a ProviderAS with an afiLimit
-for IPv6.</t>
-<t>As mentioned earlier: the same &quot;asn&quot; MUST NOT appear more than once in
-the providers. There is no point in listing the same &quot;asn&quot; with and
-without an afiLimit, as the entry without an afiLimit already encompassed
-the other. Similarly, there is no point in listing the same &quot;asn&quot; with
-an IPv4 and an IPv6 limit, as this can and must be more concisely
-expressed as a single entry without an afiLimit.</t>
 </section>
 </section>
 
@@ -103,25 +88,17 @@ a decimal value of a 32 bit Autonomous System Number using the asplain
 presentation as specified in <xref target="RFC5396"></xref>. Decimal values MUST be used,
 and values MUST be part of the range 0-4294967295.</t>
 </section>
-
-<section anchor="asn-v4"><name>asn-v4</name>
-<t>This represents a providerAS that uses an afiLimit for IPv4.</t>
-</section>
-
-<section anchor="asn-v6"><name>asn-v6</name>
-<t>This represents a providerAS that uses an afiLimit for IPv6.</t>
-</section>
 </section>
 
 <section anchor="example-notations"><name>Example Notations</name>
 
 <artwork>AS65000 =&gt; AS65001
-AS65000 =&gt; AS65002(v4)
-AS65000 =&gt; AS65001, AS65002(v4), AS65003(v6)
+AS65000 =&gt; AS65002
+AS65000 =&gt; AS65001, AS65002, AS65003
 
 65000 =&gt; 65001
-65000 =&gt; AS65002(v4)
-65000 =&gt; 65001, 65002(v4), 65003(v6)
+65000 =&gt; AS65002
+65000 =&gt; 65001, 65002, 65003
 </artwork>
 </section>
 
