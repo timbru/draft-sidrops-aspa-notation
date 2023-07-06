@@ -5,10 +5,12 @@
 Network Working Group                                     T. Bruijnzeels
 Internet-Draft                                                NLnet Labs
 Intended status: Informational                               O. Borchert
-Expires: 6 January 2024                                             NIST
+Expires: 7 January 2024                                             NIST
                                                                    D. Ma
                                                                     ZDNS
-                                                             5 July 2023
+                                                              T. de Kock
+                                                                RIPE NCC
+                                                             6 July 2023
 
 
                       Human Readable ASPA Notation
@@ -35,12 +37,26 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 6 January 2024.
+   This Internet-Draft will expire on 7 January 2024.
 
 Copyright Notice
 
    Copyright (c) 2023 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
+
+
+
+
+
+
+
+
+
+
+Bruijnzeels, et al.      Expires 7 January 2024                 [Page 1]
+
+Internet-Draft                ASPA Notation                    July 2023
+
 
    This document is subject to BCP 78 and the IETF Trust's Legal
    Provisions Relating to IETF Documents (https://trustee.ietf.org/
@@ -51,23 +67,16 @@ Copyright Notice
    described in Section 4.e of the Trust Legal Provisions and are
    provided without warranty as described in the Revised BSD License.
 
-
-
-Bruijnzeels, et al.      Expires 6 January 2024                 [Page 1]
-
-Internet-Draft                ASPA Notation                    July 2023
-
-
 Table of Contents
 
    1.  Requirements notation . . . . . . . . . . . . . . . . . . . .   2
    2.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
-   3.  ASPA Notation Definition  . . . . . . . . . . . . . . . . . .   2
+   3.  ASPA Notation Definition  . . . . . . . . . . . . . . . . . .   3
      3.1.  customer-asid . . . . . . . . . . . . . . . . . . . . . .   3
      3.2.  providers . . . . . . . . . . . . . . . . . . . . . . . .   3
        3.2.1.  provider-as . . . . . . . . . . . . . . . . . . . . .   3
      3.3.  asn . . . . . . . . . . . . . . . . . . . . . . . . . . .   3
-   4.  Example Notations . . . . . . . . . . . . . . . . . . . . . .   3
+   4.  Example Notations . . . . . . . . . . . . . . . . . . . . . .   4
    5.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   4
    6.  Security Considerations . . . . . . . . . . . . . . . . . . .   4
    7.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .   4
@@ -95,6 +104,16 @@ Table of Contents
    intended VAPs which can be easily compared to RP output. * This can
    be used for documentation.
 
+
+
+
+
+
+Bruijnzeels, et al.      Expires 7 January 2024                 [Page 2]
+
+Internet-Draft                ASPA Notation                    July 2023
+
+
    That said, this definition is informational.  Implementations can
    choose to use their own notation styles instead of, or in addition to
    this.
@@ -102,17 +121,6 @@ Table of Contents
 3.  ASPA Notation Definition
 
    This specification uses ABNF syntax specified in [RFC5234].
-
-
-
-
-
-
-
-Bruijnzeels, et al.      Expires 6 January 2024                 [Page 2]
-
-Internet-Draft                ASPA Notation                    July 2023
-
 
    notation           = customer-asid separator providers
    customer-asid      = asn
@@ -155,20 +163,14 @@ Internet-Draft                ASPA Notation                    July 2023
    asplain presentation as specified in [RFC5396].  Decimal values MUST
    be used, and values MUST be part of the range 0-4294967295.
 
-4.  Example Notations
 
 
-
-
-
-
-
-
-
-Bruijnzeels, et al.      Expires 6 January 2024                 [Page 3]
+Bruijnzeels, et al.      Expires 7 January 2024                 [Page 3]
 
 Internet-Draft                ASPA Notation                    July 2023
 
+
+4.  Example Notations
 
    AS65000 => AS65001
    AS65000 => AS65002
@@ -215,16 +217,18 @@ Internet-Draft                ASPA Notation                    July 2023
               DOI 10.17487/RFC5396, December 2008,
               <https://www.rfc-editor.org/info/rfc5396>.
 
-   [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
-              2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
-              May 2017, <https://www.rfc-editor.org/info/rfc8174>.
 
 
 
-Bruijnzeels, et al.      Expires 6 January 2024                 [Page 4]
+
+Bruijnzeels, et al.      Expires 7 January 2024                 [Page 4]
 
 Internet-Draft                ASPA Notation                    July 2023
 
+
+   [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
+              2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
+              May 2017, <https://www.rfc-editor.org/info/rfc8174>.
 
 Authors' Addresses
 
@@ -243,6 +247,9 @@ Authors' Addresses
    Email: madi@zdns.cn
 
 
+   Ties de Kock
+   RIPE NCC
+   Email: tdekock@ripe.net
 
 
 
@@ -270,11 +277,4 @@ Authors' Addresses
 
 
 
-
-
-
-
-
-
-
-Bruijnzeels, et al.      Expires 6 January 2024                 [Page 5]
+Bruijnzeels, et al.      Expires 7 January 2024                 [Page 5]

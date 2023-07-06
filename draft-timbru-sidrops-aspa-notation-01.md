@@ -32,6 +32,14 @@ organization = "ZDNS"
   [author.address]
   email = "madi@zdns.cn"
 
+[[author]]
+initials="T."
+surname="de Kock"
+fullname="Ties de Kock"
+organization = "RIPE NCC"
+  [author.address]
+  email = "tdekock@ripe.net"
+
 [pi]
  toc = "yes"
  compact = "yes"
