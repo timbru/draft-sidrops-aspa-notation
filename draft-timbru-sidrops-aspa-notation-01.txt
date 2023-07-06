@@ -5,14 +5,14 @@
 Network Working Group                                     T. Bruijnzeels
 Internet-Draft                                                NLnet Labs
 Intended status: Informational                               O. Borchert
-Expires: 12 November 2023                                           NIST
+Expires: 6 January 2024                                             NIST
                                                                    D. Ma
                                                                     ZDNS
-                                                             11 May 2023
+                                                             5 July 2023
 
 
                       Human Readable ASPA Notation
-                 draft-timbru-sidrops-aspa-notation-00
+                 draft-timbru-sidrops-aspa-notation-01
 
 Abstract
 
@@ -35,7 +35,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 12 November 2023.
+   This Internet-Draft will expire on 6 January 2024.
 
 Copyright Notice
 
@@ -53,9 +53,9 @@ Copyright Notice
 
 
 
-Bruijnzeels, et al.     Expires 12 November 2023                [Page 1]
+Bruijnzeels, et al.      Expires 6 January 2024                 [Page 1]
 
-Internet-Draft                ASPA Notation                     May 2023
+Internet-Draft                ASPA Notation                    July 2023
 
 
 Table of Contents
@@ -66,10 +66,8 @@ Table of Contents
      3.1.  customer-asid . . . . . . . . . . . . . . . . . . . . . .   3
      3.2.  providers . . . . . . . . . . . . . . . . . . . . . . . .   3
        3.2.1.  provider-as . . . . . . . . . . . . . . . . . . . . .   3
-     3.3.  asn . . . . . . . . . . . . . . . . . . . . . . . . . . .   4
-     3.4.  asn-v4  . . . . . . . . . . . . . . . . . . . . . . . . .   4
-     3.5.  asn-v6  . . . . . . . . . . . . . . . . . . . . . . . . .   4
-   4.  Example Notations . . . . . . . . . . . . . . . . . . . . . .   4
+     3.3.  asn . . . . . . . . . . . . . . . . . . . . . . . . . . .   3
+   4.  Example Notations . . . . . . . . . . . . . . . . . . . . . .   3
    5.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   4
    6.  Security Considerations . . . . . . . . . . . . . . . . . . .   4
    7.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .   4
@@ -109,21 +107,21 @@ Table of Contents
 
 
 
-Bruijnzeels, et al.     Expires 12 November 2023                [Page 2]
+
+
+Bruijnzeels, et al.      Expires 6 January 2024                 [Page 2]
 
-Internet-Draft                ASPA Notation                     May 2023
+Internet-Draft                ASPA Notation                    July 2023
 
 
    notation           = customer-asid separator providers
    customer-asid      = asn
    separator          = " => "
    providers          = provider-as *(provider-separator provider-as)
-   provider-as        = asn / asn-limit-v4 / asn-limit-v6
+   provider-as        = asn
    provider-separator = ", "
-   uint32             = %d0-4294967295
    asn                = ["AS"] uint32
-   asn-limit-v4       = asn "(v4)"
-   asn-limit-v6       = asn "(v6)"
+   uint32             = %d0-4294967295
 
 3.1.  customer-asid
 
@@ -144,35 +142,11 @@ Internet-Draft                ASPA Notation                     May 2023
       order by the "asn" value of the provider-as field.
 
    *  Each "asn" value for used for a provider-as must be unique.
-      Assertions for the same "asn" with different afiLimit values must
-      be merged.
 
 3.2.1.  provider-as
 
-   This field represents a ProviderAS as defined in section 3.3.1 of
+   This field represents a Provider AS as defined in section 3.3 of
    [I-D.ietf-sidrops-aspa-profile].
-
-   A ProviderAS in ASPA consists of a providerASID (section 3.3.1.1) and
-   an optional afiLimit (section 3.3.1.2).  In the notation defined here
-   we use a simple "asn" to represent a ProviderAS that has no afiLimit,
-   we use "asn-limit-v4" to represent a ProviderAS with an afiLimit for
-   IPv4, and we use "asn-limit-v4" to represent a ProviderAS with an
-   afiLimit for IPv6.
-
-   As mentioned earlier: the same "asn" MUST NOT appear more than once
-   in the providers.  There is no point in listing the same "asn" with
-   and without an afiLimit, as the entry without an afiLimit already
-
-
-
-Bruijnzeels, et al.     Expires 12 November 2023                [Page 3]
-
-Internet-Draft                ASPA Notation                     May 2023
-
-
-   encompassed the other.  Similarly, there is no point in listing the
-   same "asn" with an IPv4 and an IPv6 limit, as this can and must be
-   more concisely expressed as a single entry without an afiLimit.
 
 3.3.  asn
 
@@ -181,23 +155,28 @@ Internet-Draft                ASPA Notation                     May 2023
    asplain presentation as specified in [RFC5396].  Decimal values MUST
    be used, and values MUST be part of the range 0-4294967295.
 
-3.4.  asn-v4
-
-   This represents a providerAS that uses an afiLimit for IPv4.
-
-3.5.  asn-v6
-
-   This represents a providerAS that uses an afiLimit for IPv6.
-
 4.  Example Notations
 
+
+
+
+
+
+
+
+
+Bruijnzeels, et al.      Expires 6 January 2024                 [Page 3]
+
+Internet-Draft                ASPA Notation                    July 2023
+
+
    AS65000 => AS65001
-   AS65000 => AS65002(v4)
-   AS65000 => AS65001, AS65002(v4), AS65003(v6)
+   AS65000 => AS65002
+   AS65000 => AS65001, AS65002, AS65003
 
    65000 => 65001
-   65000 => AS65002(v4)
-   65000 => 65001, 65002(v4), 65003(v6)
+   65000 => AS65002
+   65000 => 65001, 65002, 65003
 
 5.  IANA Considerations
 
@@ -213,26 +192,13 @@ Internet-Draft                ASPA Notation                     May 2023
 
 8.  Normative References
 
-
-
-
-
-
-
-
-
-Bruijnzeels, et al.     Expires 12 November 2023                [Page 4]
-
-Internet-Draft                ASPA Notation                     May 2023
-
-
    [I-D.ietf-sidrops-aspa-profile]
               Azimov, A., Uskov, E., Bush, R., Snijders, J., Housley,
               R., and B. Maddison, "A Profile for Autonomous System
               Provider Authorization", Work in Progress, Internet-Draft,
-              draft-ietf-sidrops-aspa-profile-13, 25 April 2023,
+              draft-ietf-sidrops-aspa-profile-15, 8 June 2023,
               <https://datatracker.ietf.org/doc/html/draft-ietf-sidrops-
-              aspa-profile-13>.
+              aspa-profile-15>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -252,6 +218,13 @@ Internet-Draft                ASPA Notation                     May 2023
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/info/rfc8174>.
+
+
+
+Bruijnzeels, et al.      Expires 6 January 2024                 [Page 4]
+
+Internet-Draft                ASPA Notation                    July 2023
+
 
 Authors' Addresses
 
@@ -277,4 +250,31 @@ Authors' Addresses
 
 
 
-Bruijnzeels, et al.     Expires 12 November 2023                [Page 5]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Bruijnzeels, et al.      Expires 6 January 2024                 [Page 5]

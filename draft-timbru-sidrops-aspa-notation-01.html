@@ -14,7 +14,7 @@ Payloads (VAP, see ID-aspa-profile) for use with RPKI tooling based on
 ABNF (RFC 5234). 
     " name="description">
 <meta content="xml2rfc 3.15.3" name="generator">
-<meta content="draft-timbru-sidrops-aspa-notation-00" name="ietf.draft">
+<meta content="draft-timbru-sidrops-aspa-notation-01" name="ietf.draft">
 <!-- Generator version information:
   xml2rfc 3.15.3
     Python 3.10.8
@@ -33,7 +33,7 @@ ABNF (RFC 5234).
     six 1.16.0
     wcwidth 0.2.5
 -->
-<link href="draft-timbru-sidrops-aspa-notation-00.xml" rel="alternate" type="application/rfc+xml">
+<link href="draft-timbru-sidrops-aspa-notation-01.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
 <style type="text/css">/*
 
@@ -1207,11 +1207,11 @@ li > p:last-of-type:only-child {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">ASPA Notation</td>
-<td class="right">May 2023</td>
+<td class="right">July 2023</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Bruijnzeels, et al.</td>
-<td class="center">Expires 12 November 2023</td>
+<td class="center">Expires 6 January 2024</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1221,15 +1221,15 @@ li > p:last-of-type:only-child {
 <dt class="label-workgroup">Workgroup:</dt>
 <dd class="workgroup">Network Working Group</dd>
 <dt class="label-internet-draft">Internet-Draft:</dt>
-<dd class="internet-draft">draft-timbru-sidrops-aspa-notation-00</dd>
+<dd class="internet-draft">draft-timbru-sidrops-aspa-notation-01</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2023-05-11" class="published">11 May 2023</time>
+<time datetime="2023-07-05" class="published">5 July 2023</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2023-11-12">12 November 2023</time></dd>
+<dd class="expires"><time datetime="2024-01-06">6 January 2024</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1273,7 +1273,7 @@ ABNF (RFC 5234).<a href="#section-abstract-1" class="pilcrow">¶</a></p>
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 12 November 2023.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 6 January 2024.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1324,12 +1324,6 @@ ABNF (RFC 5234).<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3">
                 <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="auto internal xref">3.3</a>.  <a href="#name-asn-2" class="internal xref">asn</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.4">
-                <p id="section-toc.1-1.3.2.4.1"><a href="#section-3.4" class="auto internal xref">3.4</a>.  <a href="#name-asn-v4-2" class="internal xref">asn-v4</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.5">
-                <p id="section-toc.1-1.3.2.5.1"><a href="#section-3.5" class="auto internal xref">3.5</a>.  <a href="#name-asn-v6-2" class="internal xref">asn-v6</a></p>
 </li>
             </ul>
 </li>
@@ -1395,12 +1389,10 @@ to use their own notation styles instead of, or in addition to this.<a href="#se
 customer-asid      = asn
 separator          = " =&gt; "
 providers          = provider-as *(provider-separator provider-as)
-provider-as        = asn / asn-limit-v4 / asn-limit-v6
+provider-as        = asn
 provider-separator = ", "
-uint32             = %d0-4294967295
 asn                = ["AS"] uint32
-asn-limit-v4       = asn "(v4)"
-asn-limit-v6       = asn "(v6)"
+uint32             = %d0-4294967295
 </pre><a href="#section-3-2" class="pilcrow">¶</a>
 </div>
 <div id="customer-asid">
@@ -1428,8 +1420,7 @@ which are defined in that section mean that following :<a href="#section-3.2-1" 
           <li class="normal" id="section-3.2-2.3">The elements of providers must be ordered in ascending numerical order
 by the "asn" value of the provider-as field.<a href="#section-3.2-2.3" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-3.2-2.4">Each "asn" value for used for a provider-as must be unique. Assertions
-for the same "asn" with different afiLimit values must be merged.<a href="#section-3.2-2.4" class="pilcrow">¶</a>
+          <li class="normal" id="section-3.2-2.4">Each "asn" value for used for a provider-as must be unique.<a href="#section-3.2-2.4" class="pilcrow">¶</a>
 </li>
         </ul>
 <div id="provider-as">
@@ -1437,20 +1428,8 @@ for the same "asn" with different afiLimit values must be merged.<a href="#secti
           <h4 id="name-provider-as-2">
 <a href="#section-3.2.1" class="section-number selfRef">3.2.1. </a><a href="#name-provider-as-2" class="section-name selfRef">provider-as</a>
           </h4>
-<p id="section-3.2.1-1">This field represents a ProviderAS as defined in section 3.3.1 of
+<p id="section-3.2.1-1">This field represents a Provider AS as defined in section 3.3 of
 <span>[<a href="#I-D.ietf-sidrops-aspa-profile" class="cite xref">I-D.ietf-sidrops-aspa-profile</a>]</span>.<a href="#section-3.2.1-1" class="pilcrow">¶</a></p>
-<p id="section-3.2.1-2">A ProviderAS in ASPA consists of a providerASID (section 3.3.1.1) and
-an optional afiLimit (section 3.3.1.2). In the notation defined here
-we use a simple "asn" to represent a ProviderAS that has no afiLimit,
-we use "asn-limit-v4" to represent a ProviderAS with an afiLimit for
-IPv4, and we use "asn-limit-v4" to represent a ProviderAS with an afiLimit
-for IPv6.<a href="#section-3.2.1-2" class="pilcrow">¶</a></p>
-<p id="section-3.2.1-3">As mentioned earlier: the same "asn" MUST NOT appear more than once in
-the providers. There is no point in listing the same "asn" with and
-without an afiLimit, as the entry without an afiLimit already encompassed
-the other. Similarly, there is no point in listing the same "asn" with
-an IPv4 and an IPv6 limit, as this can and must be more concisely
-expressed as a single entry without an afiLimit.<a href="#section-3.2.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1466,22 +1445,6 @@ presentation as specified in <span>[<a href="#RFC5396" class="cite xref">RFC5396
 and values MUST be part of the range 0-4294967295.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="asn-v4">
-<section id="section-3.4">
-        <h3 id="name-asn-v4-2">
-<a href="#section-3.4" class="section-number selfRef">3.4. </a><a href="#name-asn-v4-2" class="section-name selfRef">asn-v4</a>
-        </h3>
-<p id="section-3.4-1">This represents a providerAS that uses an afiLimit for IPv4.<a href="#section-3.4-1" class="pilcrow">¶</a></p>
-</section>
-</div>
-<div id="asn-v6">
-<section id="section-3.5">
-        <h3 id="name-asn-v6-2">
-<a href="#section-3.5" class="section-number selfRef">3.5. </a><a href="#name-asn-v6-2" class="section-name selfRef">asn-v6</a>
-        </h3>
-<p id="section-3.5-1">This represents a providerAS that uses an afiLimit for IPv6.<a href="#section-3.5-1" class="pilcrow">¶</a></p>
-</section>
-</div>
 </section>
 </div>
 <div id="example-notations">
@@ -1491,12 +1454,12 @@ and values MUST be part of the range 0-4294967295.<a href="#section-3.3-1" class
       </h2>
 <div class="alignLeft art-text artwork" id="section-4-1">
 <pre>AS65000 =&gt; AS65001
-AS65000 =&gt; AS65002(v4)
-AS65000 =&gt; AS65001, AS65002(v4), AS65003(v6)
+AS65000 =&gt; AS65002
+AS65000 =&gt; AS65001, AS65002, AS65003
 
 65000 =&gt; 65001
-65000 =&gt; AS65002(v4)
-65000 =&gt; 65001, 65002(v4), 65003(v6)
+65000 =&gt; AS65002
+65000 =&gt; 65001, 65002, 65003
 </pre><a href="#section-4-1" class="pilcrow">¶</a>
 </div>
 </section>
@@ -1532,7 +1495,7 @@ AS65000 =&gt; AS65001, AS65002(v4), AS65003(v6)
 <dl class="references">
 <dt id="I-D.ietf-sidrops-aspa-profile">[I-D.ietf-sidrops-aspa-profile]</dt>
       <dd>
-<span class="refAuthor">Azimov, A.</span>, <span class="refAuthor">Uskov, E.</span>, <span class="refAuthor">Bush, R.</span>, <span class="refAuthor">Snijders, J.</span>, <span class="refAuthor">Housley, R.</span>, and <span class="refAuthor">B. Maddison</span>, <span class="refTitle">"A Profile for Autonomous System Provider Authorization"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-sidrops-aspa-profile-13</span>, <time datetime="2023-04-25" class="refDate">25 April 2023</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-sidrops-aspa-profile-13">https://datatracker.ietf.org/doc/html/draft-ietf-sidrops-aspa-profile-13</a>&gt;</span>. </dd>
+<span class="refAuthor">Azimov, A.</span>, <span class="refAuthor">Uskov, E.</span>, <span class="refAuthor">Bush, R.</span>, <span class="refAuthor">Snijders, J.</span>, <span class="refAuthor">Housley, R.</span>, and <span class="refAuthor">B. Maddison</span>, <span class="refTitle">"A Profile for Autonomous System Provider Authorization"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-sidrops-aspa-profile-15</span>, <time datetime="2023-06-08" class="refDate">8 June 2023</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-sidrops-aspa-profile-15">https://datatracker.ietf.org/doc/html/draft-ietf-sidrops-aspa-profile-15</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC2119">[RFC2119]</dt>
       <dd>
