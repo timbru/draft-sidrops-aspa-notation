@@ -12,9 +12,9 @@ value = "draft-timbru-sidrops-aspa-notation-01"
 initials="T."
 surname="Bruijnzeels"
 fullname="Tim Bruijnzeels"
-organization = "NLnet Labs"
+organization = "RIPE NCC"
   [author.address]
-  email = "tim@nlnetlabs.nl"
+  email = "tbruijnzeels@ripe.net"
 
 [[author]]
 initials="O."
