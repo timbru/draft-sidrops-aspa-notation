@@ -1,1 +1,1 @@
-mmark draft-timbru-sidrops-aspa-notation-01.md > draft-timbru-sidrops-aspa-notation-01.xml
+mmark draft-ietf-sidrops-aspa-notation-00.md > draft-ietf-sidrops-aspa-notation-00.xml

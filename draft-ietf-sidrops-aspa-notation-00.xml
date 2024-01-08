@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- name="GENERATOR" content="github.com/mmarkdown/mmark Mmark Markdown Processor - mmark.miek.nl" -->
-<rfc version="3" ipr="trust200902" docName="draft-timbru-sidrops-aspa-notation-01" submissionType="IETF" category="info" xml:lang="en" xmlns:xi="http://www.w3.org/2001/XInclude" indexInclude="true">
+<rfc version="3" ipr="trust200902" docName="draft-ietf-sidrops-aspa-notation-00" submissionType="IETF" category="info" xml:lang="en" xmlns:xi="http://www.w3.org/2001/XInclude" indexInclude="true">
 
 <front>
-<title abbrev="ASPA Notation">Human Readable ASPA Notation</title><seriesInfo value="draft-timbru-sidrops-aspa-notation-01" status="informational" name="Internet-Draft"></seriesInfo>
+<title abbrev="ASPA Notation">Human Readable ASPA Notation</title><seriesInfo value="draft-ietf-sidrops-aspa-notation-00" status="informational" name="Internet-Draft"></seriesInfo>
 <author initials="T." surname="Bruijnzeels" fullname="Tim Bruijnzeels"><organization>RIPE NCC</organization><address><postal><street></street>
 </postal><email>tbruijnzeels@ripe.net</email>
 </address></author><author initials="O." surname="Borchert" fullname="Oliver Borchert"><organization>NIST</organization><address><postal><street></street>
