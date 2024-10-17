@@ -1,1 +1,0 @@
-mmark draft-ietf-sidrops-aspa-notation-00.md > draft-ietf-sidrops-aspa-notation-00.xml
