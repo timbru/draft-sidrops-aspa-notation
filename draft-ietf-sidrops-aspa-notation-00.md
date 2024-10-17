@@ -84,14 +84,15 @@ to use their own notation styles instead of, or in addition to this.
 This specification uses ABNF syntax specified in [@!RFC5234].
 
 ~~~
-notation           = customer-asid separator providers
-customer-asid      = asn
-separator          = " => "
-providers          = provider-as *(provider-separator provider-as)
-provider-as        = asn
-provider-separator = ", "
-asn                = ["AS"] uint32
-uint32             = %d0-4294967295
+notation            = customer-asid separator providers
+customer-asid       = asn
+separator           = " => "
+providers           = providers-one-line / providers-multiline
+providers-one-line  = asn *(*WSP "," *WSP asn)
+providers-multiline = "[" *wspml asn *(*wspml "," *wspml asn) *wsp "]"
+wspml               = WSP / CRLF
+asn                 = ["AS"] uint32
+uint32              = %d0-4294967295
 ~~~
 
 ## customer-asid
@@ -125,14 +126,27 @@ and values MUST be part of the range 0-4294967295.
 
 # Example Notations
 
+Some example notations are listed below. The last example is not advised for
+readability but is technically allowed by this specification.
+
 ~~~
 AS65000 => AS65001
-AS65000 => AS65002
-AS65000 => AS65001, AS65002, AS65003
-
 65000 => 65001
 65000 => AS65002
-65000 => 65001, 65002, 65003
+AS65000 => AS65001, AS65002,AS65003
+
+AS65000 => [ AS65001, AS65002, AS65003 ]
+
+AS65000 => [
+    AS65001,
+    AS65002,
+    AS65003
+]
+
+AS65000 => [AS65001,
+                     65002
+,AS65003
+    ]
 ~~~
 
 # IANA Considerations
