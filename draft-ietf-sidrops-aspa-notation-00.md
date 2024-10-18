@@ -85,14 +85,26 @@ This specification uses ABNF syntax specified in [@!RFC5234].
 
 ~~~
 notation            = customer-asid separator providers
+
 customer-asid       = asn
 separator           = " => "
+
 providers           = providers-one-line / providers-multiline
-providers-one-line  = asn *(*WSP "," *WSP asn)
+providers-one-line  = asn *(*wsp "," *wsp asn)
 providers-multiline = "[" *wspml asn *(*wspml "," *wspml asn) *wsp "]"
-wspml               = WSP / CRLF
+
 asn                 = ["AS"] uint32
 uint32              = %d0-4294967295
+
+wsp                 = space / tab
+
+wspml               = space / tab / cr / lf
+
+cr                  = %d13
+lf                  = %d10
+
+space               = %d32
+tab                 = %d8
 ~~~
 
 ## customer-asid
