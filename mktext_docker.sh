@@ -1,5 +1,5 @@
 #!/bin/bash
-DRAFT="draft-ietf-sidrops-aspa-notation-00"
+DRAFT="draft-ietf-sidrops-aspa-notation-01"
 
 docker run --rm \
     -v $(pwd):/rfc \
