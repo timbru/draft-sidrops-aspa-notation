@@ -93,7 +93,7 @@ providers           = providers-one-line / providers-multiline
 providers-one-line  = asn *(*wsp "," *wsp asn)
 providers-multiline = "[" *wspml asn *(*wspml "," *wspml asn) *wsp "]"
 
-asn                 = ["AS"] uint32
+asn                 = "AS" uint32
 uint32              = %d0-4294967295
 
 wsp                 = space / tab
@@ -131,10 +131,10 @@ This field represents a Provider AS as defined in section 3.3 of
 
 ## asn
 
-This field can optionally be prepended with the string "AS" followed by
-a decimal value of a 32 bit Autonomous System Number using the asplain
-presentation as specified in [@!RFC5396]. Decimal values MUST be used,
-and values MUST be part of the range 0-4294967295.
+This field consists of the string "AS" followed by a decimal value of a 32-bit
+Autonomous System Number using the asplain presentation as specified in
+[@!RFC5396]. Decimal values MUST represent a 32 bit value, and therefore MUST
+be part of the range 0-4294967295.
 
 # Example Notations
 
@@ -143,7 +143,7 @@ readability but is technically allowed by this specification.
 
 ~~~
 AS65000 => AS65001
-65000 => 65001
+65000 => AS65001
 65000 => AS65002
 AS65000 => AS65001, AS65002,AS65003
 
@@ -171,6 +171,7 @@ TBD
 
 # Acknowledgements
 
-TBD
+Thanks to Randy Bush for suggesting to allow only one possible notation for AS
+numbers.
 
 {backmatter}
