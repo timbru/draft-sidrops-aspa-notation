@@ -104,7 +104,7 @@ cr                  = %d13
 lf                  = %d10
 
 space               = %d32
-tab                 = %d8
+tab                 = %d9
 ~~~
 
 ## customer-asid
