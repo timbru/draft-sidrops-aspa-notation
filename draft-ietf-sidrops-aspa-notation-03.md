@@ -143,8 +143,8 @@ readability but is technically allowed by this specification.
 
 ~~~
 AS65000 => AS65001
-65000 => AS65001
-65000 => AS65002
+AS65000 => AS65001
+AS65000 => AS65002
 AS65000 => AS65001, AS65002,AS65003
 
 AS65000 => [ AS65001, AS65002, AS65003 ]
