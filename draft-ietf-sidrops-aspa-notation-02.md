@@ -6,7 +6,7 @@ ipr = "trust200902"
 [seriesInfo]
 status = "informational"
 name = "Internet-Draft"
-value = "draft-ietf-sidrops-aspa-notation-00"
+value = "draft-ietf-sidrops-aspa-notation-02"
 
 [[author]]
 initials="T."
@@ -84,14 +84,27 @@ to use their own notation styles instead of, or in addition to this.
 This specification uses ABNF syntax specified in [@!RFC5234].
 
 ~~~
-notation           = customer-asid separator providers
-customer-asid      = asn
-separator          = " => "
-providers          = provider-as *(provider-separator provider-as)
-provider-as        = asn
-provider-separator = ", "
-asn                = ["AS"] uint32
-uint32             = %d0-4294967295
+notation            = customer-asid separator providers
+
+customer-asid       = asn
+separator           = " => "
+
+providers           = providers-one-line / providers-multiline
+providers-one-line  = asn *(*wsp "," *wsp asn)
+providers-multiline = "[" *wspml asn *(*wspml "," *wspml asn) *wsp "]"
+
+asn                 = "AS" uint32
+uint32              = %d0-4294967295
+
+wsp                 = space / tab
+
+wspml               = space / tab / cr / lf
+
+cr                  = %d13
+lf                  = %d10
+
+space               = %d32
+tab                 = %d8
 ~~~
 
 ## customer-asid
@@ -118,21 +131,34 @@ This field represents a Provider AS as defined in section 3.3 of
 
 ## asn
 
-This field can optionally be prepended with the string "AS" followed by
-a decimal value of a 32 bit Autonomous System Number using the asplain
-presentation as specified in [@!RFC5396]. Decimal values MUST be used,
-and values MUST be part of the range 0-4294967295.
+This field consists of the string "AS" followed by a decimal value of a 32-bit
+Autonomous System Number using the asplain presentation as specified in
+[@!RFC5396]. Decimal values MUST represent a 32 bit value, and therefore MUST
+be part of the range 0-4294967295.
 
 # Example Notations
 
+Some example notations are listed below. The last example is not advised for
+readability but is technically allowed by this specification.
+
 ~~~
 AS65000 => AS65001
-AS65000 => AS65002
-AS65000 => AS65001, AS65002, AS65003
-
-65000 => 65001
+65000 => AS65001
 65000 => AS65002
-65000 => 65001, 65002, 65003
+AS65000 => AS65001, AS65002,AS65003
+
+AS65000 => [ AS65001, AS65002, AS65003 ]
+
+AS65000 => [
+    AS65001,
+    AS65002,
+    AS65003
+]
+
+AS65000 => [AS65001,
+                     65002
+,AS65003
+    ]
 ~~~
 
 # IANA Considerations
@@ -145,6 +171,7 @@ TBD
 
 # Acknowledgements
 
-TBD
+Thanks to Randy Bush for suggesting to allow only one possible notation for AS
+numbers.
 
 {backmatter}
