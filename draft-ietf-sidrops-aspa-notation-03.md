@@ -91,7 +91,7 @@ separator           = " => "
 
 providers           = providers-one-line / providers-multiline
 providers-one-line  = asn *(*wsp "," *wsp asn)
-providers-multiline = "[" *wspml asn *(*wspml "," *wspml asn) *wsp "]"
+providers-multiline = "[" *wspml asn *(*wspml "," *wspml asn) *wspml "]"
 
 asn                 = "AS" uint32
 uint32              = %d0-4294967295
