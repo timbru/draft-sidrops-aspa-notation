@@ -166,10 +166,14 @@ AS65000 => [AS65001,
     ]
 ~~~
 
-The following example is valid for input only (i.e. it is not sorted in numerical order):
+The following example is valid for input only (i.e. while it is sorted in string order, it is not
+sorted in numerical order):
 ~~~
-AS65000 => [ AS65551, AS64496 ]
+AS65000 => [ AS4200000000, AS64496 ]
 ~~~
+
+note: private use AS number used because all documentation AS numbers have the
+same textual prefix.
 
 # IANA Considerations
 
