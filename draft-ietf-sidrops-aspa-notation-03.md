@@ -77,6 +77,10 @@ The main motivations for providing this notations style are:
   listing of intended VAPs which can be easily compared to RP output.
 * This can be used for documentation.
 
+The chosen notation style can be read from left to right to mean that
+the holder of the customer ASN on the left authorizes one or more
+provider ASNs on the right.
+
 That said, this definition is informational. Implementations can choose
 to use their own notation styles instead of, or in addition to this.
 
