@@ -70,9 +70,9 @@ Validated ASPA Payloads (VAPs) [@!I-D.ietf-sidrops-aspa-profile].
 
 The main motivations for providing this notations style are:
 * This can help to create consistency between RPKI Relying Party
-  software output, making it easier for operators to compare results.
+  software output (generators), making it easier for operators to compare results.
 * This can be used by RPKI Certificate Authorities (CA) command line
-  interfaces and/or configuration. E.g. allowing a CA to provide a
+  interfaces and/or configuration, where an automated process parses this syntax. E.g. allowing a CA to provide a
   listing of intended VAPs which can be easily compared to RP output.
 * This can be used for documentation.
 
@@ -116,13 +116,18 @@ This field represents the customerASID defined in section 3.2 of
 
 This field represents the providers defined in section 3.3 of
 [@!I-D.ietf-sidrops-aspa-profile]. Note that the normative constraints
-which are defined in that section mean that following :
+which are defined in that section mean that following constraints apply
+to the content of ASPA objects:
 
-* There must be at least one provider-as.
-* The customer-asid "asn" value must not appear in any provider-as.
-* The elements of providers must be ordered in ascending numerical order
-  by the "asn" value of the provider-as field.
-* Each "asn" value for used for a provider-as must be unique.
+1. There must be at least one provider-as.
+2. The customer-asid "asn" value must not appear in any provider-as.
+3. The elements of providers must be ordered in ascending numerical order
+   by the "asn" value of the provider-as field.
+4. Each "asn" value for used for a provider-as must be unique.
+
+A generator MUST ensure that the output matches all these normative constraints.
+However, to be more resilient to input written by humans, a parser MUST accept
+a list of providers that is not correctly sorted (3) but otherwise valid.
 
 ### provider-as
 
@@ -159,6 +164,11 @@ AS65000 => [AS65001,
                      AS65002
 ,AS65003
     ]
+~~~
+
+The following example is valid for input only (i.e. it is not sorted in numerical order):
+~~~
+AS65000 => [ AS65551, AS64496 ]
 ~~~
 
 # IANA Considerations
