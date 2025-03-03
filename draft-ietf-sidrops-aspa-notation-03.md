@@ -69,6 +69,7 @@ This informational document defines a human readable ASPA notation for
 Validated ASPA Payloads (VAPs) [@!I-D.ietf-sidrops-aspa-profile].
 
 The main motivations for providing this notations style are:
+
 * This can help to create consistency between RPKI Relying Party
   software output (generators), making it easier for operators to compare results.
 * This can be used by RPKI Certificate Authorities (CA) command line
